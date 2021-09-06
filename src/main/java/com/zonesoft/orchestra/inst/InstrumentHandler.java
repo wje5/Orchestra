@@ -66,6 +66,6 @@ public class InstrumentHandler {
 
 	protected void sendMessage(int command, int pitch, int keystroke) {
 		Minecraft mc = Minecraft.getInstance();
-		ClientMidiHandler.onMessage(mc.player.getUUID(), command, pitch, keystroke);// XXX need send to server
+		ClientMidiHandler.onMessage(mc.player.getUniqueID(), command, pitch, keystroke);// XXX need send to server
 	}
 }

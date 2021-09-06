@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.orchestra.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"MixinKeyboardListener"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

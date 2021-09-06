@@ -11,7 +11,7 @@ public class OrchestraTab extends ItemGroup {
 	}
 
 	@Override
-	public ItemStack makeIcon() {
+	public ItemStack createIcon() {
 		return new ItemStack(ItemLoader.trumpet.get());
 	}
 }

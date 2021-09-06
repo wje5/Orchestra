@@ -7,7 +7,6 @@ import org.lwjgl.glfw.GLFW;
 import com.zonesoft.orchestra.item.ItemLoader;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Hand;
 
 public class TrumpetHandler extends InstrumentHandler {
 	private int basePitch = -1;
@@ -19,8 +18,8 @@ public class TrumpetHandler extends InstrumentHandler {
 
 	@Override
 	public boolean isReady(PlayerEntity player) {
-		boolean flag = player.getItemInHand(Hand.MAIN_HAND).getItem() == ItemLoader.trumpet.get()
-				&& player.getItemInHand(Hand.OFF_HAND).isEmpty();
+		boolean flag = player.getHeldItemMainhand().getItem() == ItemLoader.trumpet.get()
+				&& player.getHeldItemOffhand().isEmpty();
 		if (flag) {
 			if (!isRunning()) {
 				start();

@@ -4,6 +4,6 @@ import net.minecraft.item.Item;
 
 public class OrchestraItem extends Item {
 	public OrchestraItem(Properties prop) {
-		super(prop.tab(OrchestraTab.tab).stacksTo(1));
+		super(prop.group(OrchestraTab.tab).maxStackSize(1));
 	}
 }

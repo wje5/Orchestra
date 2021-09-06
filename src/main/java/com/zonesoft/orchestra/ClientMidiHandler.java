@@ -1,5 +1,6 @@
 package com.zonesoft.orchestra;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -23,7 +24,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class ClientMidiHandler {
 	private static Sequencer sequencer;
-	private static Track track;
 	public static final ResourceLocation LOCATION = new ResourceLocation("orchestra:audio/sound.sf2");
 
 	public static void init() {
@@ -33,24 +33,25 @@ public class ClientMidiHandler {
 			e.printStackTrace();
 			return;
 		}
-		InputStream stream = null;
 		try {
 			IResource res = Minecraft.getInstance().getResourceManager().getResource(LOCATION);
 			if (res != null) {
-				stream = res.getInputStream();
-				for (Info i : MidiSystem.getMidiDeviceInfo()) {
-					MidiDevice d = null;
-					try {
-						d = MidiSystem.getMidiDevice(i);
-						if (d instanceof Synthesizer) {
-							Receiver receiver = d.getReceiver();
-							d.open();
-							((Synthesizer) d).loadAllInstruments(MidiSystem.getSoundbank(stream));
-							sequencer.getTransmitter().setReceiver(receiver);
+				try (InputStream stream = new BufferedInputStream(res.getInputStream())) {
+					for (Info i : MidiSystem.getMidiDeviceInfo()) {
+						MidiDevice d = null;
+						try {
+							d = MidiSystem.getMidiDevice(i);
+							if (d instanceof Synthesizer) {
+								Receiver receiver = d.getReceiver();
+								d.open();
+//								if (res == null)
+								((Synthesizer) d).loadAllInstruments(MidiSystem.getSoundbank(stream));
+								sequencer.getTransmitter().setReceiver(receiver);
+							}
+						} catch (MidiUnavailableException | InvalidMidiDataException | IOException e) {
+							e.printStackTrace();
+							continue;
 						}
-					} catch (MidiUnavailableException | InvalidMidiDataException | IOException e) {
-						e.printStackTrace();
-						continue;
 					}
 				}
 			}
@@ -59,7 +60,7 @@ public class ClientMidiHandler {
 		}
 		try {
 			Sequence seq = new Sequence(Sequence.PPQ, 4);
-			track = seq.createTrack();
+			Track track = seq.createTrack();
 			sequencer.open();
 			sequencer.setSequence(seq);
 			sequencer.setTempoInBPM(2400);
@@ -71,17 +72,19 @@ public class ClientMidiHandler {
 	}
 
 	private static void onMessage(int command, int channel, int pitch, int keystroke) {
-		if (track != null) {
-			try {
-				track.add(new MidiEvent(new ShortMessage(command, channel, pitch, keystroke),
-						sequencer.getTickPosition()));
-			} catch (InvalidMidiDataException e) {
-				e.printStackTrace();
-			}
+		try {
+			sequencer.getSequence().getTracks()[0].add(// XXX
+					new MidiEvent(new ShortMessage(command, channel, pitch, keystroke), sequencer.getTickPosition()));
+		} catch (InvalidMidiDataException e) {
+			e.printStackTrace();
 		}
 	}
 
 	public static void onMessage(UUID player, int command, int pitch, int keystroke) {
 		onMessage(command, 0, pitch, keystroke);// XXX
+	}
+
+	public static void reset() {
+
 	}
 }

@@ -2,6 +2,8 @@ package com.zonesoft.orchestra.inst;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.zonesoft.orchestra.ClientMidiHandler;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
@@ -23,6 +25,9 @@ public class InstrumentManager {
 		int key = event.getKey();
 		if (trumpet.isReady(player)) {
 			trumpet.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
+		}
+		if (action == GLFW.GLFW_PRESS && key == GLFW.GLFW_KEY_1) {
+			ClientMidiHandler.reset();
 		}
 	}
 }

@@ -36,7 +36,7 @@ public class Orchestra {
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents {
 		@SubscribeEvent
-		public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
+		public static void onBlocksRegistry(RegistryEvent.Register<Block> event) {
 			LOGGER.info("HELLO from Register Block");
 		}
 	}
