@@ -6,12 +6,9 @@ import java.io.InputStream;
 import java.util.UUID;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiDevice;
-import javax.sound.midi.MidiDevice.Info;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
@@ -37,22 +34,11 @@ public class ClientMidiHandler {
 			IResource res = Minecraft.getInstance().getResourceManager().getResource(LOCATION);
 			if (res != null) {
 				try (InputStream stream = new BufferedInputStream(res.getInputStream())) {
-					for (Info i : MidiSystem.getMidiDeviceInfo()) {
-						MidiDevice d = null;
-						try {
-							d = MidiSystem.getMidiDevice(i);
-							if (d instanceof Synthesizer) {
-								Receiver receiver = d.getReceiver();
-								d.open();
-//								if (res == null)
-								((Synthesizer) d).loadAllInstruments(MidiSystem.getSoundbank(stream));
-								sequencer.getTransmitter().setReceiver(receiver);
-							}
-						} catch (MidiUnavailableException | InvalidMidiDataException | IOException e) {
-							e.printStackTrace();
-							continue;
-						}
-					}
+					Synthesizer syn = MidiSystem.getSynthesizer();
+					syn.open();
+					syn.loadAllInstruments(MidiSystem.getSoundbank(stream));
+				} catch (MidiUnavailableException | InvalidMidiDataException e) {
+					e.printStackTrace();
 				}
 			}
 		} catch (IOException e) {
@@ -85,6 +71,18 @@ public class ClientMidiHandler {
 	}
 
 	public static void reset() {
+		try {
+			sequencer.setTickPosition(0);
+			Sequence seq = new Sequence(Sequence.PPQ, 4);
+			Track track = seq.createTrack();
+			sequencer.setSequence(seq);
+			sequencer.setTempoInBPM(2400);
+//			sequencer.open();
+			track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, 0, 48, 65), 500000000));
+			sequencer.start();
+		} catch (InvalidMidiDataException e) {
+			e.printStackTrace();
+		}
 
 	}
 }

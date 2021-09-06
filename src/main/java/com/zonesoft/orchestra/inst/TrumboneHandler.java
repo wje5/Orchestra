@@ -8,10 +8,10 @@ import com.zonesoft.orchestra.item.ItemLoader;
 
 import net.minecraft.entity.player.PlayerEntity;
 
-public class TrumpetHandler extends InstrumentHandler {
+public class TrumboneHandler extends InstrumentHandler {
 	private int basePitch = -1, dynamic = 77;
 
-	public TrumpetHandler() {
+	public TrumboneHandler() {
 		super(new int[] { GLFW.GLFW_KEY_8, GLFW.GLFW_KEY_9, GLFW.GLFW_KEY_0, GLFW.GLFW_KEY_V, GLFW.GLFW_KEY_B,
 				GLFW.GLFW_KEY_N, GLFW.GLFW_KEY_M, GLFW.GLFW_KEY_G, GLFW.GLFW_KEY_H, GLFW.GLFW_KEY_J, GLFW.GLFW_KEY_K,
 				GLFW.GLFW_KEY_Y, GLFW.GLFW_KEY_U, GLFW.GLFW_KEY_I, GLFW.GLFW_KEY_O, GLFW.GLFW_KEY_P,
@@ -20,7 +20,7 @@ public class TrumpetHandler extends InstrumentHandler {
 
 	@Override
 	public boolean isReady(PlayerEntity player) {
-		boolean flag = player.getHeldItemMainhand().getItem() == ItemLoader.trumpet.get()
+		boolean flag = player.getHeldItemMainhand().getItem() == ItemLoader.trumbone.get()
 				&& player.getHeldItemOffhand().isEmpty();
 		if (flag) {
 			if (!isRunning()) {
@@ -36,7 +36,7 @@ public class TrumpetHandler extends InstrumentHandler {
 
 	@Override
 	protected void onStart() {
-		sendMessage(ShortMessage.PROGRAM_CHANGE, 56, 0);
+		sendMessage(ShortMessage.PROGRAM_CHANGE, 57, 0);
 	}
 
 	@Override
@@ -72,28 +72,28 @@ public class TrumpetHandler extends InstrumentHandler {
 		int pitch = 0;
 		switch (index) {
 		case 3:
-			pitch = 63;
+			pitch = 51;
 			break;
 		case 4:
-			pitch = 70;
+			pitch = 58;
 			break;
 		case 5:
-			pitch = 77;
+			pitch = 65;
 			break;
 		case 6:
-			pitch = 82;
+			pitch = 70;
 			break;
 		case 7:
-			pitch = 86;
+			pitch = 74;
 			break;
 		case 8:
-			pitch = 89;
+			pitch = 77;
 			break;
 		case 9:
-			pitch = 94;
+			pitch = 82;
 			break;
 		case 10:
-			pitch = 98;
+			pitch = 86;
 			break;
 		}
 		if (isPress) {

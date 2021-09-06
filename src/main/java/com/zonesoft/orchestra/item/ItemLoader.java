@@ -8,6 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemLoader {
 	public static DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, "orchestra");
-	public static RegistryObject<Item> trumpet = ITEMS.register("trumpet",
-			() -> new OrchestraItem(new Properties()));
+	public static RegistryObject<Item> trumpet = ITEMS.register("trumpet", () -> new OrchestraItem(new Properties()));
+	public static RegistryObject<Item> trumbone = ITEMS.register("trumbone", () -> new OrchestraItem(new Properties()));
+	public static RegistryObject<Item> tuba = ITEMS.register("tuba", () -> new OrchestraItem(new Properties()));
 }
