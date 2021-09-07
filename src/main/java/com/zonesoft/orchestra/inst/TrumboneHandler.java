@@ -36,13 +36,13 @@ public class TrumboneHandler extends InstrumentHandler {
 
 	@Override
 	protected void onStart() {
-		sendMessage(ShortMessage.PROGRAM_CHANGE, 57, 0);
+		sendMessage(ShortMessage.PROGRAM_CHANGE, 0, 57, 0);
 	}
 
 	@Override
 	protected void onStop() {
 		if (basePitch >= 0) {
-			sendMessage(ShortMessage.NOTE_OFF, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)), 0);
+			sendMessage(ShortMessage.NOTE_OFF, 0, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)), 0);
 		}
 	}
 
@@ -50,8 +50,9 @@ public class TrumboneHandler extends InstrumentHandler {
 	public void onStateChange(int index, boolean isPress) {
 		if (index <= 2) {
 			if (basePitch >= 0) {
-				sendMessage(ShortMessage.NOTE_OFF, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)), 0);
-				sendMessage(ShortMessage.NOTE_ON, calcPitch(basePitch, index == 0 ? isPress : isPressed(0),
+				sendMessage(ShortMessage.NOTE_OFF, 0, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)),
+						0);
+				sendMessage(ShortMessage.NOTE_ON, 0, calcPitch(basePitch, index == 0 ? isPress : isPressed(0),
 						index == 1 ? isPress : isPressed(1), index == 2 ? isPress : isPressed(2)), dynamic);
 			}
 			return;
@@ -61,9 +62,9 @@ public class TrumboneHandler extends InstrumentHandler {
 			if (d != dynamic) {
 				dynamic = d;
 				if (basePitch >= 0) {
-					sendMessage(ShortMessage.NOTE_OFF, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)),
-							0);
-					sendMessage(ShortMessage.NOTE_ON, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)),
+					sendMessage(ShortMessage.NOTE_OFF, 0,
+							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)), 0);
+					sendMessage(ShortMessage.NOTE_ON, 0, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)),
 							dynamic);
 				}
 			}
@@ -99,14 +100,15 @@ public class TrumboneHandler extends InstrumentHandler {
 		if (isPress) {
 			if (basePitch != pitch) {
 				if (basePitch >= 0) {
-					sendMessage(ShortMessage.NOTE_OFF, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)),
-							0);
+					sendMessage(ShortMessage.NOTE_OFF, 0,
+							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)), 0);
 				}
-				sendMessage(ShortMessage.NOTE_ON, calcPitch(pitch, isPressed(0), isPressed(1), isPressed(2)), dynamic);
+				sendMessage(ShortMessage.NOTE_ON, 0, calcPitch(pitch, isPressed(0), isPressed(1), isPressed(2)),
+						dynamic);
 				basePitch = pitch;
 			}
 		} else if (basePitch == pitch) {
-			sendMessage(ShortMessage.NOTE_OFF, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)), 0);
+			sendMessage(ShortMessage.NOTE_OFF, 0, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)), 0);
 			basePitch = -1;
 		}
 	}

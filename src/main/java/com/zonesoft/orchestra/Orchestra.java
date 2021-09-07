@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.zonesoft.orchestra.item.ItemLoader;
+import com.zonesoft.orchestra.network.NetworkHandler;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,7 +27,7 @@ public class Orchestra {
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
-		// PREINIT
+		event.enqueueWork(NetworkHandler::init);
 	}
 
 	private void doClientStuff(final FMLClientSetupEvent event) {

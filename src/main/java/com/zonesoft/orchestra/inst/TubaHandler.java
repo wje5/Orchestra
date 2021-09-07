@@ -36,13 +36,13 @@ public class TubaHandler extends InstrumentHandler {
 
 	@Override
 	protected void onStart() {
-		sendMessage(ShortMessage.PROGRAM_CHANGE, 56, 0);
+		sendMessage(ShortMessage.PROGRAM_CHANGE, 0, 56, 0);
 	}
 
 	@Override
 	protected void onStop() {
 		if (basePitch >= 0) {
-			sendMessage(ShortMessage.NOTE_OFF,
+			sendMessage(ShortMessage.NOTE_OFF, 0,
 					calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), 0);
 		}
 	}
@@ -51,9 +51,9 @@ public class TubaHandler extends InstrumentHandler {
 	public void onStateChange(int index, boolean isPress) {
 		if (index <= 3) {
 			if (basePitch >= 0) {
-				sendMessage(ShortMessage.NOTE_OFF,
+				sendMessage(ShortMessage.NOTE_OFF, 0,
 						calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), 0);
-				sendMessage(ShortMessage.NOTE_ON,
+				sendMessage(ShortMessage.NOTE_ON, 0,
 						calcPitch(basePitch, index == 0 ? isPress : isPressed(0), index == 1 ? isPress : isPressed(1),
 								index == 2 ? isPress : isPressed(2), index == 3 ? isPress : isPressed(3)),
 						dynamic);
@@ -65,9 +65,9 @@ public class TubaHandler extends InstrumentHandler {
 			if (d != dynamic) {
 				dynamic = d;
 				if (basePitch >= 0) {
-					sendMessage(ShortMessage.NOTE_OFF,
+					sendMessage(ShortMessage.NOTE_OFF, 0,
 							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), 0);
-					sendMessage(ShortMessage.NOTE_ON,
+					sendMessage(ShortMessage.NOTE_ON, 0,
 							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), dynamic);
 				}
 			}
@@ -103,15 +103,15 @@ public class TubaHandler extends InstrumentHandler {
 		if (isPress) {
 			if (basePitch != pitch) {
 				if (basePitch >= 0) {
-					sendMessage(ShortMessage.NOTE_OFF,
+					sendMessage(ShortMessage.NOTE_OFF, 0,
 							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), 0);
 				}
-				sendMessage(ShortMessage.NOTE_ON,
+				sendMessage(ShortMessage.NOTE_ON, 0,
 						calcPitch(pitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), dynamic);
 				basePitch = pitch;
 			}
 		} else if (basePitch == pitch) {
-			sendMessage(ShortMessage.NOTE_OFF,
+			sendMessage(ShortMessage.NOTE_OFF, 0,
 					calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), 0);
 			basePitch = -1;
 		}

@@ -6,34 +6,29 @@ import com.zonesoft.orchestra.ClientMidiHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber
 public class InstrumentManager {
 	public static TrumpetHandler trumpet = new TrumpetHandler();
 	public static TrumboneHandler trumbone = new TrumboneHandler();
 	public static TubaHandler tuba = new TubaHandler();
 
-	@SubscribeEvent
-	public static void onKeyboardInput(KeyInputEvent event) {
+	public static boolean onKeyboardInput(int key, int action) {
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
 		if (player == null) {
-			return;
+			return false;
 		}
-		int action = event.getAction();
-		int key = event.getKey();
 		if (trumpet.isReady(player)) {
-			trumpet.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
+			return trumpet.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
 		} else if (trumbone.isReady(player)) {
-			trumbone.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
+			return trumbone.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
 		} else if (tuba.isReady(player)) {
-			tuba.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
+			return tuba.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
 		}
 		if (action == GLFW.GLFW_PRESS && key == GLFW.GLFW_KEY_1) {
 			ClientMidiHandler.reset();
+			return true;
 		}
+		return false;
 	}
 }

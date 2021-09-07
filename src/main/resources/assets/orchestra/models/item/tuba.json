@@ -1,0 +1,5 @@
+{
+  "loader": "forge:obj",
+  "model": "orchestra:models/item/tuba.obj",
+  "flip-v": true
+}
