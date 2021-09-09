@@ -9,7 +9,7 @@ import com.zonesoft.orchestra.item.ItemLoader;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class TrumboneHandler extends InstrumentHandler {
-	private int basePitch = -1, dynamic = 77;
+	private int basePitch = -1, dynamic = 3;
 
 	public TrumboneHandler() {
 		super(new int[] { GLFW.GLFW_KEY_8, GLFW.GLFW_KEY_9, GLFW.GLFW_KEY_0, GLFW.GLFW_KEY_V, GLFW.GLFW_KEY_B,
@@ -52,20 +52,22 @@ public class TrumboneHandler extends InstrumentHandler {
 			if (basePitch >= 0) {
 				sendMessage(ShortMessage.NOTE_OFF, 0, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)),
 						0);
-				sendMessage(ShortMessage.NOTE_ON, 0, calcPitch(basePitch, index == 0 ? isPress : isPressed(0),
-						index == 1 ? isPress : isPressed(1), index == 2 ? isPress : isPressed(2)), dynamic);
+				sendMessage(
+						ShortMessage.NOTE_ON, 0, calcPitch(basePitch, index == 0 ? isPress : isPressed(0),
+								index == 1 ? isPress : isPressed(1), index == 2 ? isPress : isPressed(2)),
+						dynamic * 10 + 57);
 			}
 			return;
 		}
 		if (index >= 11) {
-			int d = (index - 10) * 10 + 47;
+			int d = index - 11;
 			if (d != dynamic) {
 				dynamic = d;
 				if (basePitch >= 0) {
 					sendMessage(ShortMessage.NOTE_OFF, 0,
 							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)), 0);
 					sendMessage(ShortMessage.NOTE_ON, 0, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)),
-							dynamic);
+							dynamic * 10 + 57);
 				}
 			}
 			return;
@@ -104,7 +106,7 @@ public class TrumboneHandler extends InstrumentHandler {
 							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)), 0);
 				}
 				sendMessage(ShortMessage.NOTE_ON, 0, calcPitch(pitch, isPressed(0), isPressed(1), isPressed(2)),
-						dynamic);
+						dynamic * 10 + 57);
 				basePitch = pitch;
 			}
 		} else if (basePitch == pitch) {
@@ -124,5 +126,10 @@ public class TrumboneHandler extends InstrumentHandler {
 			base -= 3;
 		}
 		return base;
+	}
+
+	@Override
+	public int getDynamic() {
+		return dynamic;
 	}
 }

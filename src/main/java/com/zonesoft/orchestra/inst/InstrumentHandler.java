@@ -68,6 +68,10 @@ public class InstrumentHandler {
 		return running;
 	}
 
+	public int getDynamic() {
+		return -1;
+	}
+
 	protected void sendMessage(int command, int channel, int pitch, int keystroke) {
 		Minecraft mc = Minecraft.getInstance();
 		ClientMidiHandler.onMessage(mc.player.getUniqueID(), command, channel, pitch, keystroke);

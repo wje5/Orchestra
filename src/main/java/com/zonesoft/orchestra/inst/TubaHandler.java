@@ -9,7 +9,7 @@ import com.zonesoft.orchestra.item.ItemLoader;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class TubaHandler extends InstrumentHandler {
-	private int basePitch = -1, dynamic = 77;
+	private int basePitch = -1, dynamic = 3;
 
 	public TubaHandler() {
 		super(new int[] { GLFW.GLFW_KEY_8, GLFW.GLFW_KEY_9, GLFW.GLFW_KEY_0, GLFW.GLFW_KEY_MINUS, GLFW.GLFW_KEY_V,
@@ -56,19 +56,20 @@ public class TubaHandler extends InstrumentHandler {
 				sendMessage(ShortMessage.NOTE_ON, 0,
 						calcPitch(basePitch, index == 0 ? isPress : isPressed(0), index == 1 ? isPress : isPressed(1),
 								index == 2 ? isPress : isPressed(2), index == 3 ? isPress : isPressed(3)),
-						dynamic);
+						dynamic * 10 + 57);
 			}
 			return;
 		}
 		if (index >= 12) {
-			int d = (index - 11) * 10 + 47;
+			int d = index - 12;
 			if (d != dynamic) {
 				dynamic = d;
 				if (basePitch >= 0) {
 					sendMessage(ShortMessage.NOTE_OFF, 0,
 							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), 0);
 					sendMessage(ShortMessage.NOTE_ON, 0,
-							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), dynamic);
+							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)),
+							dynamic * 10 + 57);
 				}
 			}
 			return;
@@ -107,7 +108,7 @@ public class TubaHandler extends InstrumentHandler {
 							calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), 0);
 				}
 				sendMessage(ShortMessage.NOTE_ON, 0,
-						calcPitch(pitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), dynamic);
+						calcPitch(pitch, isPressed(0), isPressed(1), isPressed(2), isPressed(3)), dynamic * 10 + 57);
 				basePitch = pitch;
 			}
 		} else if (basePitch == pitch) {
@@ -131,5 +132,10 @@ public class TubaHandler extends InstrumentHandler {
 			base -= 5;
 		}
 		return base;
+	}
+
+	@Override
+	public int getDynamic() {
+		return dynamic;
 	}
 }

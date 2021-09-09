@@ -13,22 +13,30 @@ public class InstrumentManager {
 	public static TubaHandler tuba = new TubaHandler();
 
 	public static boolean onKeyboardInput(int key, int action) {
-		Minecraft mc = Minecraft.getInstance();
-		PlayerEntity player = mc.player;
-		if (player == null) {
-			return false;
-		}
-		if (trumpet.isReady(player)) {
-			return trumpet.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
-		} else if (trumbone.isReady(player)) {
-			return trumbone.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
-		} else if (tuba.isReady(player)) {
-			return tuba.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
-		}
 		if (action == GLFW.GLFW_PRESS && key == GLFW.GLFW_KEY_1) {
 			ClientMidiHandler.reset();
 			return true;
 		}
+		InstrumentHandler handler = getHandler();
+		if (handler != null) {
+			return handler.onKeyboardInput(key, action == GLFW.GLFW_RELEASE ? false : true);
+		}
 		return false;
+	}
+
+	public static InstrumentHandler getHandler() {
+		Minecraft mc = Minecraft.getInstance();
+		PlayerEntity player = mc.player;
+		if (player == null) {
+			return null;
+		}
+		if (trumpet.isReady(player)) {
+			return trumpet;
+		} else if (trumbone.isReady(player)) {
+			return trumbone;
+		} else if (tuba.isReady(player)) {
+			return tuba;
+		}
+		return null;
 	}
 }
