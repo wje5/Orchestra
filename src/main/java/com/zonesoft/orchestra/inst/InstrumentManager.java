@@ -1,5 +1,8 @@
 package com.zonesoft.orchestra.inst;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.glfw.GLFW;
 
 import com.zonesoft.orchestra.ClientMidiHandler;
@@ -8,9 +11,27 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class InstrumentManager {
-	public static TrumpetHandler trumpet = new TrumpetHandler();
-	public static TrumboneHandler trumbone = new TrumboneHandler();
-	public static TubaHandler tuba = new TubaHandler();
+	private static List<InstrumentHandler> handlers = new ArrayList<InstrumentHandler>();
+
+	public static void registerHandlers() {
+		register(new TrumpetHandler());
+		register(new TrumboneHandler());
+		register(new TubaHandler());
+		register(new FrenchHornHandler());
+		register(new FluteHandler());
+		register(new PiccoloHandler());
+		register(new OboeHandler());
+		register(new BassoonHandler());
+		register(new ClarinetHandler());
+		register(new SopranoSaxphoneHandler());
+		register(new AltoSaxphoneHandler());
+		register(new BaritoneSaxphoneHandler());
+		register(new SnareDrumHandler());
+	}
+
+	public static void register(InstrumentHandler handler) {
+		handlers.add(handler);
+	}
 
 	public static boolean onKeyboardInput(int key, int action) {
 		if (action == GLFW.GLFW_PRESS && key == GLFW.GLFW_KEY_1) {
@@ -30,12 +51,10 @@ public class InstrumentManager {
 		if (player == null) {
 			return null;
 		}
-		if (trumpet.isReady(player)) {
-			return trumpet;
-		} else if (trumbone.isReady(player)) {
-			return trumbone;
-		} else if (tuba.isReady(player)) {
-			return tuba;
+		for (InstrumentHandler i : handlers) {
+			if (i.isReady(player)) {
+				return i;
+			}
 		}
 		return null;
 	}

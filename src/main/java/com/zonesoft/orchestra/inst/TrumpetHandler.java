@@ -60,6 +60,9 @@ public class TrumpetHandler extends InstrumentHandler {
 			return;
 		}
 		if (index >= 11) {
+			if (!isPress) {
+				return;
+			}
 			int d = index - 11;
 			if (d != dynamic) {
 				dynamic = d;
@@ -75,28 +78,28 @@ public class TrumpetHandler extends InstrumentHandler {
 		int pitch = 0;
 		switch (index) {
 		case 3:
-			pitch = 63;
+			pitch = 51;
 			break;
 		case 4:
-			pitch = 70;
+			pitch = 58;
 			break;
 		case 5:
-			pitch = 77;
+			pitch = 65;
 			break;
 		case 6:
-			pitch = 82;
+			pitch = 70;
 			break;
 		case 7:
-			pitch = 86;
+			pitch = 74;
 			break;
 		case 8:
-			pitch = 89;
+			pitch = 77;
 			break;
 		case 9:
-			pitch = 94;
+			pitch = 82;
 			break;
 		case 10:
-			pitch = 98;
+			pitch = 86;
 			break;
 		}
 		if (isPress) {

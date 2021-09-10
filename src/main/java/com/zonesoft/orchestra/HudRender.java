@@ -24,10 +24,10 @@ public class HudRender {
 				if (dynamic >= 0) {
 					Minecraft mc = Minecraft.getInstance();
 					mc.getTextureManager().bindTexture(LOCATION);
-					int x = event.getWindow().getScaledWidth() - 30;
+					int x = event.getWindow().getScaledWidth() - 22;
 					int y = event.getWindow().getScaledHeight() / 2 - 56;
-					IngameGui.blit(event.getMatrixStack(), x, y, 0, 0, 30, 112, 256, 256);
-					IngameGui.blit(event.getMatrixStack(), x + 5, y + 92 - (int) (74 * (dynamic / 7F)), 30, 0, 11, 1,
+					IngameGui.blit(event.getMatrixStack(), x, y, 0, 0, 22, 112, 256, 256);
+					IngameGui.blit(event.getMatrixStack(), x + 5, y + 104 - (int) (98 * (dynamic / 7F)), 22, 0, 15, 1,
 							256, 256);
 				}
 			}

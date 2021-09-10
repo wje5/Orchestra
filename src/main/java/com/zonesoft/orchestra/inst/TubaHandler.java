@@ -61,6 +61,9 @@ public class TubaHandler extends InstrumentHandler {
 			return;
 		}
 		if (index >= 12) {
+			if (!isPress) {
+				return;
+			}
 			int d = index - 12;
 			if (d != dynamic) {
 				dynamic = d;
@@ -77,28 +80,28 @@ public class TubaHandler extends InstrumentHandler {
 		int pitch = 0;
 		switch (index) {
 		case 4:
-			pitch = 39;
+			pitch = 27;
 			break;
 		case 5:
-			pitch = 46;
+			pitch = 34;
 			break;
 		case 6:
-			pitch = 53;
+			pitch = 41;
 			break;
 		case 7:
-			pitch = 58;
+			pitch = 46;
 			break;
 		case 8:
-			pitch = 62;
+			pitch = 50;
 			break;
 		case 9:
-			pitch = 65;
+			pitch = 53;
 			break;
 		case 10:
-			pitch = 70;
+			pitch = 58;
 			break;
 		case 11:
-			pitch = 74;
+			pitch = 62;
 			break;
 		}
 		if (isPress) {

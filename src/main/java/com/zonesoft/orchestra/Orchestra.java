@@ -3,6 +3,7 @@ package com.zonesoft.orchestra;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.zonesoft.orchestra.inst.InstrumentManager;
 import com.zonesoft.orchestra.item.ItemLoader;
 import com.zonesoft.orchestra.network.NetworkHandler;
 
@@ -32,6 +33,7 @@ public class Orchestra {
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		ClientMidiHandler.init();
+		InstrumentManager.registerHandlers();
 	}
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -41,4 +43,5 @@ public class Orchestra {
 			LOGGER.info("HELLO from Register Block");
 		}
 	}
+
 }

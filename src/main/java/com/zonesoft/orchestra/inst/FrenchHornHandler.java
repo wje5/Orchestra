@@ -8,10 +8,10 @@ import com.zonesoft.orchestra.item.ItemLoader;
 
 import net.minecraft.entity.player.PlayerEntity;
 
-public class TrumboneHandler extends InstrumentHandler {
+public class FrenchHornHandler extends InstrumentHandler {
 	private int basePitch = -1, dynamic = 3;
 
-	public TrumboneHandler() {
+	public FrenchHornHandler() {
 		super(new int[] { GLFW.GLFW_KEY_8, GLFW.GLFW_KEY_9, GLFW.GLFW_KEY_0, GLFW.GLFW_KEY_V, GLFW.GLFW_KEY_B,
 				GLFW.GLFW_KEY_N, GLFW.GLFW_KEY_M, GLFW.GLFW_KEY_G, GLFW.GLFW_KEY_H, GLFW.GLFW_KEY_J, GLFW.GLFW_KEY_K,
 				GLFW.GLFW_KEY_Y, GLFW.GLFW_KEY_U, GLFW.GLFW_KEY_I, GLFW.GLFW_KEY_O, GLFW.GLFW_KEY_P,
@@ -20,7 +20,7 @@ public class TrumboneHandler extends InstrumentHandler {
 
 	@Override
 	public boolean isReady(PlayerEntity player) {
-		boolean flag = player.getHeldItemMainhand().getItem() == ItemLoader.trumbone.get()
+		boolean flag = player.getHeldItemMainhand().getItem() == ItemLoader.french_horn.get()
 				&& player.getHeldItemOffhand().isEmpty();
 		if (flag) {
 			if (!isRunning()) {
@@ -36,7 +36,7 @@ public class TrumboneHandler extends InstrumentHandler {
 
 	@Override
 	protected void onStart() {
-		sendMessage(ShortMessage.PROGRAM_CHANGE, 0, 57, 0);
+		sendMessage(ShortMessage.PROGRAM_CHANGE, 0, 60, 0);
 	}
 
 	@Override
@@ -49,6 +49,9 @@ public class TrumboneHandler extends InstrumentHandler {
 	@Override
 	public void onStateChange(int index, boolean isPress) {
 		if (index <= 2) {
+			if (!isPress) {
+				return;
+			}
 			if (basePitch >= 0) {
 				sendMessage(ShortMessage.NOTE_OFF, 0, calcPitch(basePitch, isPressed(0), isPressed(1), isPressed(2)),
 						0);
@@ -60,9 +63,6 @@ public class TrumboneHandler extends InstrumentHandler {
 			return;
 		}
 		if (index >= 11) {
-			if (!isPress) {
-				return;
-			}
 			int d = index - 11;
 			if (d != dynamic) {
 				dynamic = d;
@@ -78,28 +78,28 @@ public class TrumboneHandler extends InstrumentHandler {
 		int pitch = 0;
 		switch (index) {
 		case 3:
-			pitch = 39;
+			pitch = 34;
 			break;
 		case 4:
-			pitch = 46;
+			pitch = 41;
 			break;
 		case 5:
-			pitch = 53;
+			pitch = 48;
 			break;
 		case 6:
-			pitch = 58;
+			pitch = 53;
 			break;
 		case 7:
-			pitch = 62;
+			pitch = 57;
 			break;
 		case 8:
-			pitch = 65;
+			pitch = 60;
 			break;
 		case 9:
-			pitch = 70;
+			pitch = 65;
 			break;
 		case 10:
-			pitch = 74;
+			pitch = 69;
 			break;
 		}
 		if (isPress) {
