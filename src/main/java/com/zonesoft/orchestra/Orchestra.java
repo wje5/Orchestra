@@ -43,5 +43,4 @@ public class Orchestra {
 			LOGGER.info("HELLO from Register Block");
 		}
 	}
-
 }

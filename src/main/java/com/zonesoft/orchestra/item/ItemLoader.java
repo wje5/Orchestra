@@ -26,4 +26,9 @@ public class ItemLoader {
 			() -> new OrchestraItem(new Properties()));
 	public static RegistryObject<Item> snare_drum = ITEMS.register("snare_drum",
 			() -> new OrchestraItem(new Properties()));
+	public static RegistryObject<Item> bass_drum = ITEMS.register("bass_drum",
+			() -> new OrchestraItem(new Properties()));
+	public static RegistryObject<Item> cymbal = ITEMS.register("cymbal", () -> new OrchestraItem(new Properties()));
+	public static RegistryObject<Item> glockenspiel = ITEMS.register("glockenspiel",
+			() -> new OrchestraItem(new Properties()));
 }

@@ -78,8 +78,7 @@ public class ClientMidiHandler {
 		Minecraft mc = Minecraft.getInstance();
 		if (player.equals(mc.player.getUniqueID())) {
 			onMessage(0, command, channel, pitch, keystroke);
-		}
-		if (map.containsKey(player)) {
+		} else if (map.containsKey(player)) {
 			onMessage(map.get(player), command, channel, pitch, keystroke);
 		} else {
 			for (int i = 0;; i++) {
@@ -100,7 +99,7 @@ public class ClientMidiHandler {
 			Track track = seq.createTrack();
 			track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, 0, 48, 65), 500000000));
 			sequencer.setSequence(seq);
-			sequencer.setTempoInBPM(2400);
+			sequencer.setTempoInBPM(3600);
 //			sequencer.open();
 			sequencer.start();
 		} catch (InvalidMidiDataException e) {

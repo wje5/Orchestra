@@ -27,6 +27,9 @@ public class InstrumentManager {
 		register(new AltoSaxphoneHandler());
 		register(new BaritoneSaxphoneHandler());
 		register(new SnareDrumHandler());
+		register(new BassDrumHandler());
+		register(new CymbalHandler());
+		register(new GlockenspielHandler());
 	}
 
 	public static void register(InstrumentHandler handler) {

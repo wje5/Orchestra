@@ -1,5 +1,8 @@
 buildscript {
     repositories {
+    	flatDir {
+    		dirs "lib"
+    	}
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
@@ -9,6 +12,16 @@ buildscript {
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
+
+repositories {
+    flatDir {
+    	dirs "lib"
+    }
+    maven { url = 'https://maven.minecraftforge.net' }
+    maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+    mavenCentral()
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'org.spongepowered.mixin'
@@ -145,9 +158,10 @@ dependencies {
 
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html\
+    implementation fg.deobf('zsml:zsml:1.0.0')
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
-
+	
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
